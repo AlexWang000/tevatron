@@ -132,7 +132,7 @@ def main():
             q = example['query_input_ids']
 
             pp = example['pos_psgs_input_ids']
-            p = pp[0]
+            p = pp[(hash(42) + epoch) % len(pp)]
 
             nn = example['neg_psgs_input_ids']
             off = epoch * (self.group_size - 1) % len(nn)
