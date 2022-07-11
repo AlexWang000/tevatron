@@ -38,13 +38,13 @@ def write_ranking(corpus_indices, corpus_scores, q_lookup, ranking_save_file):
 
 
 def pickle_load(path):
-    with open(path, 'rb') as f:
+    with tf.io.gfile.GFile(path, 'rb') as f:
         reps, lookup = pickle.load(f)
     return np.array(reps), lookup
 
 
 def pickle_save(obj, path):
-    with open(path, 'wb') as f:
+    with tf.io.gfile.GFile(path, 'wb') as f:
         pickle.dump(obj, f)
 
 

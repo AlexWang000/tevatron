@@ -20,6 +20,7 @@ from flax import jax_utils
 import optax
 from transformers import (AutoConfig, AutoTokenizer, FlaxAutoModel,
                           HfArgumentParser, TensorType)
+import tensorflow as tf
 
 logger = logging.getLogger(__name__)
 
@@ -110,8 +111,10 @@ def main():
         lookup_indices.extend(batch_ids)
         batch_embeddings = p_encode_step(shard(batch.data), state)
         encoded.extend(np.concatenate(batch_embeddings, axis=0))
-    with open(data_args.encoded_save_path, 'wb') as f:
+
+    with tf.io.gfile.GFile(data_args.encoded_save_path, 'wb') as f:
         pickle.dump((encoded[:dataset_size], lookup_indices[:dataset_size]), f)
+
 
 
 if __name__ == "__main__":
